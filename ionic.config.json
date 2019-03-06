@@ -1,0 +1,7 @@
+{
+  "name": "valiDatorsProject",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
