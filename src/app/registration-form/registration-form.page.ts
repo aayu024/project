@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { MustMatch } from '../validators/matchPasswordValidator';
-
+import { File } from '@ionic-native/file';
 import { FetchDataService } from '../fetch-data.service';
 import { switchMap, map } from 'rxjs/operators';
 import { PopoverController, AlertController, ActionSheetController } from '@ionic/angular';
 import { PopOverComponent } from '../pop-over/pop-over.component';
 import { Router } from '@angular/router';
-
+import { Subscription } from 'rxjs';
+var cordova:any;
 @Component({
   selector: 'app-registration-form',
   templateUrl: './registration-form.page.html',
@@ -17,16 +18,16 @@ export class RegistrationFormPage implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private fetchDataService: FetchDataService,
     private popOverController: PopoverController, private alertController: AlertController, private actionSheetController: ActionSheetController,
-    private router: Router,private file:File) { }
+    private router: Router) { }
   registerForm: FormGroup;
   submitted = false;
   validation_msg: any;
   data: any;
-
+  public subscription: Subscription;
   ngOnInit() {
-    this.fetchDataService.getData().subscribe(data => {
+    this.subscription=this.fetchDataService.getData().subscribe(data => {
       console.log("data", data)
-    })
+    });
     this.registerForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.pattern("[a-zA-Z\\s]+")]],
       lastname: ['', [Validators.required, Validators.pattern("[a-zA-Z\\s]+")]],
@@ -67,7 +68,7 @@ export class RegistrationFormPage implements OnInit {
   registerData($event){
     this.presentPopover();
     //console.log("registerForm.get('cpassword').MustMatch",this.registerForm.getError('cpassword'))
-    this.data = JSON.stringify(this.registerForm.value)
+    this.data =(this.registerForm.value)
   //   module.controller('MyCtrl', function ($scope, $cordovaFile) {
 
   //     document.addEventListener('deviceready', function () {
@@ -79,11 +80,11 @@ export class RegistrationFormPage implements OnInit {
       
   //   });
 
-  // });
+  // }); 
 
-    var data = JSON.stringify(data);
+    console.log(this.data)
     
-   $cordova.writeFile('details.json',JSON.stringify(data),{append:true})
+    File.writeFile(File.dataDirectory,"details.json", JSON.stringify(this.data),{append:true})
       .then(function (success) {
         console.log("success the file has been created")
       }, function (error) {
@@ -121,6 +122,9 @@ export class RegistrationFormPage implements OnInit {
     });
     await alert.present();
   }
-
+  ngOnDestroy()
+  {
+    this.subscription.unsubscribe();
+  }
 
 }

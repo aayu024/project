@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthGuardService } from '../services/authGuard.service';
+import { AuthenticationService } from '../providers/authentication.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,10 +10,19 @@ import { AuthGuardService } from '../services/authGuard.service';
 export class DashboardComponent implements OnInit {
 
   constructor(private authGuardService:AuthGuardService) { }
-
-  ngOnInit() {}
+  visibleData=false;
+  user:string;
+  ngOnInit() {
+    this.authGuardService.getToken().then(userName=>{
+      this.user=userName;
+    })
+  }
   logout()
   {
     this.authGuardService.logout()
+  }
+  getDetails()
+  {
+    this.visibleData=true;
   }
 }

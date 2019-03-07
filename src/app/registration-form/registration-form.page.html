@@ -60,9 +60,13 @@
           <ion-item class="invalidData" *ngIf="registerForm.get('cpassword').hasError(validation.type)  && (registerForm.get('cpassword').dirty || registerForm.get('cpassword').touched)">
             <img src="/assets/icon/error.png"/>{{ validation.message }}
           </ion-item>
+          <ion-item class="invalidData" *ngIf="registerForm.get('cpassword').errors.mustMatch  && (registerForm.get('cpassword').dirty || registerForm.get('cpassword').touched)">
+              <img src="/assets/icon/error.png"/>Password must match
+            </ion-item>
+          
                    
       </ion-list>
-      <ion-button type="submit" [disabled]=!registerForm.valid>Register</ion-button>
+      <ion-button type="submit"  *ngIf="!registerForm.get('cpassword').errors.mustMatch  && (registerForm.get('cpassword').dirty || registerForm.get('cpassword').touched)">Register</ion-button>
     </form>
   </ion-card>
 

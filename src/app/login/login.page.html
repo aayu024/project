@@ -5,21 +5,29 @@
 </ion-header>
 
 <ion-content>
-  <ion-card>
-    <form [formGroup]="loginForm" (ngSubmit)="login(username)">
+  <ion-card> 
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
         <ion-item>
             <ion-label position="floating">Username:</ion-label>
-            <ion-input formcontrolName="user" [(ngModel)]="username" [ngModelOptions]="{standalone: true}"></ion-input>
-            <ion-item class="invalidData" *ngIf="loginForm.controls['user'].invalid && (loginForm.get('user').dirty || loginForm.get('user').touched)">
-            required
+            <ion-input formControlName="uname"></ion-input>
+          </ion-item>
+            <ion-item class="invalidData" *ngIf="loginForm.controls['uname'].invalid && (loginForm.get('uname').dirty || loginForm.get('uname').touched)">
+                <img src="/assets/icon/error.png"/>Username is required
             </ion-item>
-        </ion-item>
+        
         <ion-item>
-            <ion-label position="floating">Password:</ion-label>
-            <ion-input type="password" formcontrolname="pass" [(ngModel)]="password" [ngModelOptions]="{standalone: true}"></ion-input>
+          <ion-label position="floating">Password</ion-label>
+          <ion-input formControlName="upass" type="password"></ion-input>
         </ion-item>
-          <ion-button type="submit" expand="block">Submit</ion-button>
+          <ion-item class="invalidData" *ngIf="loginForm.controls['upass'].invalid && (loginForm.get('upass').dirty || loginForm.get('upass').touched)">
+              <img src="/assets/icon/error.png"/>Password is required
+              </ion-item>
+        
+          <ion-button type="submit" expand="block" [disabled]="!loginForm.valid">Submit</ion-button>
           <ion-button (click)="registration()" expand="block">Register</ion-button>
+          <ion-item class="invalidData" *ngIf="visible">
+              <img src="/assets/icon/error.png"/>Invalid Username or password
+          </ion-item>
     </form>
     
   </ion-card>

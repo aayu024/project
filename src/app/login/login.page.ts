@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators,ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthGuardService } from '../services/authGuard.service';
+import { FetchDataService } from '../fetch-data.service';
+import { Subscription } from 'rxjs';
+import { Customer } from '../shared/Customer';
 
 @Component({
   selector: 'app-login',
@@ -10,25 +13,53 @@ import { AuthGuardService } from '../services/authGuard.service';
 })
 export class LoginPage implements OnInit {
   loginForm: FormGroup;
-  username: string;
+  credentials_user: string[] = [];
+  credentials_password: string[] = [];
   password: string;
-  constructor(private formBuilder: FormBuilder, private router: Router, private authGuardService: AuthGuardService) { }
-
+  visible = false;
+  values: Customer[] = [];
+  constructor(private formBuilder: FormBuilder, private router: Router, private authGuardService: AuthGuardService,
+    private fetchDataService: FetchDataService) { }
+  public subscription: Subscription
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      user: ['', Validators.required],
-      pass: ['', Validators.required]
+      uname: ['', Validators.required],
+      upass: ['', Validators.required]
+     
     })
+    this.subscription = this.fetchDataService.getData().subscribe(data => {
+      for(let i=0;i<data.length;i++){
+        this.values.push(new Customer(data[i]))
+      }
+      console.log("val",this.values)
+      // for (let i = 0; i < this.values.length; i++) {
+      //   this.credentials_user.push(this.values[i]["firstname"])
+      //   this.credentials_password.push(this.values[i]["password"])
+      // }
+    });
+    
   }
-  login(name: string) {
-    console.log("called", this.username, this.password, name)
-    // console.log("user",this.loginForm.controls['user'])
-    if (name == "admin" && this.password == "admin") {
-      this.authGuardService.login(name);
-    }
+  login() {
+    
+    console.log("called", this.credentials_user, this.credentials_password)
+    // for (let i = 0; i < this.values.length; i++) {
+    //   if (this.loginForm.value["uname"] == this.credentials_user[i] && this.loginForm.value["upass"] == this.credentials_password[i]) {
+    //     this.authGuardService.login(this.loginForm.value["uname"]);
+    //     this.visible=false;
+    //   }
+    //   else {
+    //     this.visible = true;
+    //   }
+    // }
+    
+
   }
   registration() {
     this.router.navigate(['registration-form'])
+  }
+  ngOnDestroy() {
+    console.log("Destroyed")
+    this.subscription.unsubscribe();
   }
 
 }

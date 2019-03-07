@@ -15,9 +15,11 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { PopOverComponent } from './pop-over/pop-over.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { DetailsComponent } from './details/details.component';
+
 
 @NgModule({
-  declarations: [AppComponent,PopOverComponent,DashboardComponent],
+  declarations: [AppComponent,PopOverComponent,DashboardComponent,DetailsComponent],
   entryComponents: [PopOverComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,IonicStorageModule.forRoot(),CommonModule,HttpClientModule,ReactiveFormsModule,FormsModule],
   providers: [

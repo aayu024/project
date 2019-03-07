@@ -12,10 +12,10 @@ export function MustMatch(controlName:string,matchingControlName: string) {
         }
 
         // set error on matchingControl if validation fails
-        if (control.value !== matchingControl.value) {
-            return {matchValue:true};
+        if (control.value != matchingControl.value) {
+            matchingControl.setErrors({ mustMatch: true });
         } else {
-            return null;
+            matchingControl.setErrors({ mustMatch: false });
         }
     }
 }
