@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthGuardService } from '../services/authGuard.service';
 import { AuthenticationService } from '../providers/authentication.service';
+import { SessionGuardService } from '../services/session-guard.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,7 +10,7 @@ import { AuthenticationService } from '../providers/authentication.service';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(private authGuardService:AuthGuardService) { }
+  constructor(private authGuardService:AuthGuardService,private sessionGuardService:SessionGuardService) { }
   visibleData=false;
   user:string;
   ngOnInit() {
@@ -19,7 +20,8 @@ export class DashboardComponent implements OnInit {
   }
   logout()
   {
-    this.authGuardService.logout()
+    this.authGuardService.logout();
+    this.sessionGuardService.invalidateSession();
   }
   getDetails()
   {
