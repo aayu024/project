@@ -8,8 +8,11 @@
       </ion-buttons>
     </ion-toolbar>
   </ion-header>
+  
   <ion-content>
     <ion-button (click)="getDetails()">Details</ion-button>
-    <app-details *ngIf="visibleData" [userId]="user"></app-details>
+    <ion-button (click)="clickMe()">Some btn</ion-button>
+    <!-- <app-details *ngIf="visibleData" [userId]="user"></app-details> -->
+    <router-outlet></router-outlet>
   </ion-content>
   

@@ -8,7 +8,7 @@ import { PopoverController, AlertController, ActionSheetController } from '@ioni
 import { PopOverComponent } from '../pop-over/pop-over.component';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-var cordova:any;
+var cordova: any;
 @Component({
   selector: 'app-registration-form',
   templateUrl: './registration-form.page.html',
@@ -18,16 +18,14 @@ export class RegistrationFormPage implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private fetchDataService: FetchDataService,
     private popOverController: PopoverController, private alertController: AlertController, private actionSheetController: ActionSheetController,
-    private router: Router) { }
+    private router: Router,private file: File) { }
   registerForm: FormGroup;
   submitted = false;
   validation_msg: any;
   data: any;
-  public subscription: Subscription;
+
   ngOnInit() {
-    this.subscription=this.fetchDataService.getData().subscribe(data => {
-      console.log("data", data)
-    });
+
     this.registerForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.pattern("[a-zA-Z\\s]+")]],
       lastname: ['', [Validators.required, Validators.pattern("[a-zA-Z\\s]+")]],
@@ -65,49 +63,39 @@ export class RegistrationFormPage implements OnInit {
     //console.log('validatorc',this.registerForm.get('cpassword').hasError("MustMatch('password','cpassword'))"))
   }
 
-  registerData($event){
+  registerData($event) {
     this.presentPopover();
     //console.log("registerForm.get('cpassword').MustMatch",this.registerForm.getError('cpassword'))
-    this.data =(this.registerForm.value)
-  //   module.controller('MyCtrl', function ($scope, $cordovaFile) {
+    this.data = (this.registerForm.value)
+    //   module.controller('MyCtrl', function ($scope, $cordovaFile) {
 
-  //     document.addEventListener('deviceready', function () {
-  //       $cordovaFile.writeExistingFile(cordova.file.dataDirectory, "details.json", this.data).then(function (success) {
-  //         console.log("done");
-  //       }, function (error) {
-  //         console.log("error")
-  //       });
-      
-  //   });
+    //     document.addEventListener('deviceready', function () {
+    //       $cordovaFile.writeExistingFile(cordova.file.dataDirectory, "details.json", this.data).then(function (success) {
+    //         console.log("done");
+    //       }, function (error) {
+    //         console.log("error")
+    //       });
 
-  // }); 
+    //   });
+
+    // }); 
 
     console.log(this.data)
-    
-    File.writeFile(File.dataDirectory,"details.json", JSON.stringify(this.data),{append:true})
-      .then(function (success) {
-        console.log("success the file has been created")
-      }, function (error) {
-        console.log("error"+JSON.stringify(error))
-      });
- 
-  
 
-}
+    // this.file. writeFile(File.dataDirectory, "details.json", JSON.stringify(this.data), { append: true })
+    //   .then(function (success) {
+    //     console.log("success the file has been created")
+    //   }, function (error) {
+    //     console.log("error" + JSON.stringify(error))
+    //   });
+
+
+
+  }
 
 
   async presentPopover() {
-    // const popover = await this.popOverController.create({
-    //   component: PopOverComponent,
-    //   // componentProps:{
-    //   //   count:this.letterOfCredit.getTransactions().length,
-    //   //   stage:this.letterOfCredit.getTransactions()
-    //   // },
-    //   event: ev,
-    //   translucent: true,
-    //   cssClass: 'custom-popover',
-    // });
-    // return await popover.present();
+
     const alert = await this.alertController.create({
       header: 'Success',
       message: 'client registered successfully',
@@ -121,10 +109,6 @@ export class RegistrationFormPage implements OnInit {
 
     });
     await alert.present();
-  }
-  ngOnDestroy()
-  {
-    this.subscription.unsubscribe();
   }
 
 }

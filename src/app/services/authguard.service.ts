@@ -21,7 +21,5 @@ export class AuthGuardService implements CanActivate {
   }
   logout() {
     this.authService.logout();
-    //this.sessionGuardService.invalidateSession();
-
   }
 }

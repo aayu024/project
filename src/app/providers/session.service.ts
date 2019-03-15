@@ -12,8 +12,6 @@ export class SessionService {
   tokenState = new BehaviorSubject<string>(null);
 
   public CUSTOMER_KEY = "customer";
-  // public BANK_KEY = "bank";
-  // public LC_KEY = "LC"
 
   constructor(private storage: Storage) {
 
@@ -24,15 +22,7 @@ export class SessionService {
   loadUser() {
     return this.storage.get(this.CUSTOMER_KEY);
   }
-  // storeLC(LCDetails) {
-  //   return this.storage.set(this.LC_KEY, LCDetails);
-  // }
-  // loadLC() {
-  //   return this.storage.get(this.LC_KEY);
-  // }
   invalidateSession() {
     this.storage.remove(this.CUSTOMER_KEY);
-    // this.storage.remove(this.BANK_KEY);
-    // this.storage.remove(this.LC_KEY);
   }
 }

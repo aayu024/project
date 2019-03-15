@@ -1,0 +1,12 @@
+<ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>Details of Employees</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list *ngFor="let val of values">
+        <ion-label>First Name: {{val.firstname}}</ion-label><hr>
+      </ion-list>
+      <!-- <ion-label>Last Name: {{customer.lastname}}</ion-label><hr>
+      <ion-label>Email ID: {{customer.emailID}}</ion-label> -->
+    </ion-card-content>
+    </ion-card>

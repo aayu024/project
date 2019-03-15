@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthGuardService } from '../services/authGuard.service';
 import { AuthenticationService } from '../providers/authentication.service';
 import { SessionGuardService } from '../services/session-guard.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,7 +11,8 @@ import { SessionGuardService } from '../services/session-guard.service';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(private authGuardService:AuthGuardService,private sessionGuardService:SessionGuardService) { }
+  constructor(private authGuardService:AuthGuardService,private sessionGuardService:SessionGuardService,
+  private router:Router) { }
   visibleData=false;
   user:string;
   ngOnInit() {
@@ -25,6 +27,10 @@ export class DashboardComponent implements OnInit {
   }
   getDetails()
   {
-    this.visibleData=true;
+    this.router.navigate(['dashboard', 'details']);
+    //this.visibleData=true;
+  }
+  clickMe(){
+    this.router.navigate(['dashboard', 'view']);
   }
 }
